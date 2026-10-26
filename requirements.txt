@@ -421,3 +421,4 @@ yarl==1.25.1
     # via aiohttp
 zstandard==0.25.0
     # via langsmith
+email-validator==2.3.0
