@@ -1,0 +1,10 @@
+back/
+front/
+reports/
+.kilo/
+.cgrep/
+__pycache__/
+.venv/
+venv/
+.env
+.env.*
