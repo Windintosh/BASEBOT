@@ -6,6 +6,7 @@ PyTorch Deep Learning (MLP) 기반 MLB 타자/투수 시즌 성적 예측 엔진
 
 from __future__ import annotations
 
+import os
 import math
 import re
 import sys
@@ -401,6 +402,11 @@ class PlayerDLPredictor:
 
     def _ensure_loaded(self):
         if not MODEL_PT_PATH.exists():
+            if os.environ.get("VERCEL"):
+                raise FileNotFoundError(
+                    "배포에 player_dl_models.pt 파일이 필요합니다."
+                )
+
             try:
                 self.checkpoint = train_and_save_dl_models()
             except Exception as e:
@@ -408,8 +414,17 @@ class PlayerDLPredictor:
                 return
         else:
             try:
-                self.checkpoint = torch.load(MODEL_PT_PATH, map_location="cpu", weights_only=False)
-            except Exception:
+                self.checkpoint = torch.load(
+                    MODEL_PT_PATH,
+                    map_location="cpu",
+                    weights_only=False,
+                )
+            except Exception as e:
+                if os.environ.get("VERCEL"):
+                    raise RuntimeError(
+                        "배포된 선수 예측 모델을 불러오지 못했습니다."
+                    ) from e
+
                 self.checkpoint = train_and_save_dl_models()
 
         if self.checkpoint:

@@ -47,7 +47,7 @@ async function loadOptionalPlayerCharts(playerId,season,mode) {
     container.hidden=true;container.innerHTML='';
     if (!Number.isInteger(Number(season)) || Number(season)<2015 || !Number.isInteger(Number(playerId)) || Number(playerId)<=0 || !['batting','pitching'].includes(mode)) return;
     try {
-        const res=await fetch(`http://127.0.0.1:8000/api/players/${Number(playerId)}/charts?season=${Number(season)}&mode=${encodeURIComponent(mode)}`);
+        const res=await fetch(`/api/players/${Number(playerId)}/charts?season=${Number(season)}&mode=${encodeURIComponent(mode)}`);
         if (!res.ok) return;
         const data=await res.json();
         if (request!==playerChartRequest || Number(data.season)!==Number(season) || Number(data.player_id)!==Number(playerId) || data.mode!==mode) return;

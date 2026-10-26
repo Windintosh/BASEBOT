@@ -26,6 +26,7 @@ from models.team import Team
 from models.community_image import CommunityImage
 
 from services.admin_activity_log_service import log_admin_activity
+from upload_paths import COMMUNITY_UPLOAD_DIR
 
 
 router = APIRouter(
@@ -266,12 +267,15 @@ def delete_admin_community_post(
     )
 
     # 3. 서버의 이미지 업로드 폴더 경로
-    back_dir = os.path.dirname(
-        os.path.dirname(os.path.abspath(__file__))
-    )
+    # back_dir = os.path.realpath(
+    #     COMMUNITY_UPLOAD_DIR
+    # )
+    # os.path.dirname(
+    #     os.path.dirname(os.path.abspath(__file__))
+    # )
 
     upload_dir = os.path.realpath(
-        os.path.join(back_dir, "uploads", "community")
+        COMMUNITY_UPLOAD_DIR
     )
 
     # 4. 이미지 파일과 이미지 DB 정보 정리

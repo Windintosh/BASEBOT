@@ -8,6 +8,7 @@ import sys
 import hashlib
 import json
 import subprocess
+import os
 
 from datetime import datetime
 from pathlib import Path
@@ -652,6 +653,11 @@ def get_rag_status(
 def reindex_rag_documents(
     admin_user=Depends(get_admin_user),
 ):
+    if os.environ.get("VERCEL"):
+        raise HTTPException(
+            status_code=503,
+            detail="배포 환경에서는 재색인을 지원하지 않습니다. 로컬에서 색인 후 재배포하세요.",
+        )
     try:
         script_path = get_rag_ingest_script()
         rag_dir = get_rag_directory()

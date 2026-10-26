@@ -1,9 +1,13 @@
-from fastapi import FastAPI
+import sys
+from pathlib import Path
 
-app = FastAPI(title="BASEBOT Deployment Check")
+BACK_DIR = Path(__file__).resolve().parent / "back"
+sys.path.insert(0, str(BACK_DIR))
+
+from back.main import app
 
 
-@app.get("/")
+@app.get("/probe/health")
 def health():
     return {"status": "ok"}
 
@@ -27,6 +31,7 @@ def check_dependencies():
 @app.get("/probe/db")
 def check_database():
     from sqlalchemy import text
+    # from back.database.db_connection import engine
     from back.database.db_connection import engine
 
     with engine.connect() as connection:

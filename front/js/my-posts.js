@@ -6,7 +6,7 @@
 /*
     community.js, my-scraps.js와 동일하게 백엔드 서버 주소를 사용합니다.
 */
-const MY_POSTS_API_BASE = "http://127.0.0.1:8000";
+const MY_POSTS_API_BASE = "";
 
 // 전체 게시글과 화면에 표시할 목록
 let allMyPosts = [];

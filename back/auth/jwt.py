@@ -1,10 +1,16 @@
 import jwt
 
+import os
+
 from datetime import datetime, timedelta, timezone
 
 from fastapi import HTTPException, status
 
-SECRET_KEY = "basebot-secret-key"
+# SECRET_KEY_OLD = os.environ["JWT_SECRET_KEY_OLD"]
+SECRET_KEY = os.environ["JWT_SECRET_KEY"]
+
+if len(SECRET_KEY.encode("utf-8")) < 32:
+    raise RuntimeError("JWT_SECRET_KEY는 32바이트 이상이어야 합니다.")
 ALGORITHM = "HS256"
 
 

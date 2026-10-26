@@ -1082,6 +1082,10 @@ def baseball_scheduler_loop():
 
 
 def start_background_baseball_scheduler():
+    # Vercel에서는 상시 수집 스케줄러를 시작하지 않는다.
+    if os.environ.get("VERCEL"):
+        return
+
     global _scheduler_started
     if _scheduler_started:
         return

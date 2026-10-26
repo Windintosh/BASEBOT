@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from datetime import datetime
 from typing import Optional
@@ -13,6 +14,8 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
 from database.db_connection import get_session
 from routers.admin_users import get_admin_user
+
+from rag_paths import CHROMA_PATH
 
 
 router = APIRouter(
@@ -55,7 +58,8 @@ def resolve_directory(name: str, marker: Optional[str] = None) -> Path:
 
 
 DATA_PATH = resolve_directory("rag_data", "*.txt")
-CHROMA_PATH = resolve_directory("chroma_db", "chroma.sqlite3")
+# CHROMA_PATH = resolve_directory("chroma_db", "chroma.sqlite3")
+# CHROMA_PATH = resolve_directory("chroma_db", "chroma.sqlite3")
 
 COLLECTION_NAME = "basebot"
 
@@ -378,6 +382,11 @@ def get_rag_document(
 def reindex_rag_documents(
     admin=Depends(get_admin_user),
 ):
+    if os.environ.get("VERCEL"):
+        raise HTTPException(
+            status_code=503,
+            detail="배포 환경에서는 재색인을 지원하지 않습니다. 로컬에서 색인 후 재배포하세요.",
+        )
     try:
         # ------------------------------------------
         # 1. TXT 문서 조회

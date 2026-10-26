@@ -569,6 +569,10 @@ def crawler_loop():
 
 
 def start_background_crawler():
+    # Vercel에서는 상시 자동 수집을 시작하지 않는다.
+    if os.environ.get("VERCEL"):
+        return
+
     global _started
     if _started:
         return

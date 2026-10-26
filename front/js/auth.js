@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // FastAPI 아이디 중복확인 API
             const response = await fetch(
-                "http://127.0.0.1:8000/auth/username-check?username=" +
+                "/auth/username-check?username=" +
                 encodeURIComponent(username)
             );
 
@@ -506,7 +506,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // FastAPI 회원가입 API 호출
             const response = await fetch(
-                "http://127.0.0.1:8000/auth/signup",
+                "/auth/signup",
                 {
                     method: "POST",
 
@@ -633,7 +633,7 @@ if (loginButton) {
         try {
 
             const response = await fetch(
-                "http://127.0.0.1:8000/auth/login",
+                "/auth/login",
                 {
                     method: "POST",
 

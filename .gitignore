@@ -7,6 +7,7 @@ __pycache__/
 venv/
 .venv/
 env/
+/.venv-rag/
 
 # Environment variables
 .env
@@ -25,6 +26,10 @@ Thumbs.db
 
 # Deep Learning
 *.pt
+
+# 배포에 사용하는 학습 완료 모델
+!/back/services/player_dl_models.pt
+!/back/ml/game_prediction_model.pkl
 
 # Logs
 *.log
@@ -50,3 +55,7 @@ __pycache__/
 /back/data/player_charts/
 /reports
 /presentation_visuals
+
+# 배포용 RAG 인덱스
+!/back/chroma_db/
+!/back/chroma_db/**

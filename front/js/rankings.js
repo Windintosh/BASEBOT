@@ -106,7 +106,7 @@ async function fetchMyStatus() {
     }
 
     try {
-        const res = await fetch(`http://127.0.0.1:8000/api/rankings/me?user_id=${userId}`);
+        const res = await fetch(`/api/rankings/me?user_id=${userId}`);
         if (!res.ok) return;
         const data = await res.json();
         const user = data.user_info;
@@ -138,7 +138,7 @@ async function fetchLeaderboard(sort) {
 
     try {
         // 상위 10명(limit=10)만 호출
-        const res = await fetch(`http://127.0.0.1:8000/api/rankings?sort_by=${sort}&limit=10`);
+        const res = await fetch(`/api/rankings?sort_by=${sort}&limit=10`);
         if (!res.ok) throw new Error("리더보드를 가져오지 못했습니다.");
         const result = await res.json();
         const list = result.data;

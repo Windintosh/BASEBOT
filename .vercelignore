@@ -1,13 +1,24 @@
-back/**
-!back/database/
-back/database/**
-!back/database/db_connection.py
-front/
-reports/
-.kilo/
-.cgrep/
-__pycache__/
+# 로컬 개발 환경
 .venv/
+.venv-rag/
 venv/
+env/
+**/__pycache__/
+**/.cgrep/
+.kilo/
+.vercel/
+
+# 비밀 환경 설정
 .env
 .env.*
+**/.env
+**/.env.*
+
+# 로컬 보고서와 발표 자료
+reports/
+presentation_visuals/
+
+# 로컬 업로드 및 수집 데이터
+back/uploads/
+back/data/stat_sources/
+back/data/player_charts/

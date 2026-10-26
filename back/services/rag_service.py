@@ -1,8 +1,8 @@
 from langchain_chroma import Chroma
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from rag_paths import CHROMA_PATH
 
-
-CHROMA_PATH = "./chroma_db"
+# CHROMA_PATH = "./chroma_db"
 
 
 embeddings = GoogleGenerativeAIEmbeddings(
@@ -13,7 +13,7 @@ embeddings = GoogleGenerativeAIEmbeddings(
 vectorstore = Chroma(
     collection_name="basebot",
     embedding_function=embeddings,
-    persist_directory=CHROMA_PATH,
+    persist_directory=str(CHROMA_PATH),
 )
 
 

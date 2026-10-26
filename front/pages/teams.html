@@ -111,7 +111,7 @@
                     const uid = u.user_id || u.id;
                     if (uid) {
                         // DB에서 최신 선호 구단 ID 조회
-                        const res = await fetch(`http://127.0.0.1:8000/api/predictions/users/${uid}/points`);
+                        const res = await fetch(`/api/predictions/users/${uid}/points`);
                         if (res.ok) {
                             const data = await res.json();
                             if (data.favorite_team_id) return Number(data.favorite_team_id);
@@ -126,7 +126,7 @@
         async function fetchTeams() {
             try {
                 const [teamsRes, myFavTeamId] = await Promise.all([
-                    fetch("http://127.0.0.1:8000/api/teams"),
+                    fetch("/api/teams"),
                     getMyFavoriteTeamIdAsync()
                 ]);
 

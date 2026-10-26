@@ -150,7 +150,7 @@ async function fetchUserPoints() {
     }
 
     try {
-        const res = await fetch(`http://127.0.0.1:8000/api/predictions/users/${userId}/points`);
+        const res = await fetch(`/api/predictions/users/${userId}/points`);
         if (res.ok) {
             const data = await res.json();
             currentUserPoints = data.point || 0;
@@ -207,7 +207,7 @@ async function loadGameList() {
     if (!select) return;
 
     try {
-        const res = await fetch("http://127.0.0.1:8000/api/games?order=desc&limit=50");
+        const res = await fetch("/api/games?order=desc&limit=50");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const games = await res.json();
 
@@ -288,13 +288,13 @@ async function loadSelectedGame(gameId) {
 
     try {
         const voteUrl = userId 
-            ? `http://127.0.0.1:8000/api/predictions/votes/status?game_id=${gameId}&user_id=${userId}`
-            : `http://127.0.0.1:8000/api/predictions/votes/status?game_id=${gameId}`;
+            ? `/api/predictions/votes/status?game_id=${gameId}&user_id=${userId}`
+            : `/api/predictions/votes/status?game_id=${gameId}`;
         
         const voteRes = await fetch(voteUrl);
         const voteStatus = voteRes.ok ? await voteRes.json() : { total_votes: 0, home_vote_pct: 50, away_vote_pct: 50, my_vote: null };
 
-        const gamesRes = await fetch(`http://127.0.0.1:8000/api/games?limit=100`);
+        const gamesRes = await fetch(`/api/games?limit=100`);
         const games = await gamesRes.json();
         const thisGame = games.find(g => g.game_id == gameId);
 
@@ -309,7 +309,7 @@ async function loadSelectedGame(gameId) {
         const seasonParam = gameYear ? `&season=${gameYear}` : "";
 
         const predRes = await fetch(
-            `http://127.0.0.1:8000/api/predictions/matchup?home_team_id=${currentGameData.home_team_id}&away_team_id=${currentGameData.away_team_id}${seasonParam}`
+            `/api/predictions/matchup?home_team_id=${currentGameData.home_team_id}&away_team_id=${currentGameData.away_team_id}${seasonParam}`
         );
         if (!predRes.ok) throw new Error("예측 API 호출 실패");
         const pred = await predRes.json();
@@ -662,7 +662,7 @@ async function handleVote(side) {
     const selectedTeamId = side === "home" ? currentGameData.home_team_id : currentGameData.away_team_id;
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/predictions/votes", {
+        const response = await fetch("/api/predictions/votes", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

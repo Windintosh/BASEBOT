@@ -54,7 +54,7 @@ function getSavantColor(pct) {
 
 async function fetchPlayerDetail(playerId) {
     try {
-        const res = await fetch(`http://127.0.0.1:8000/api/players/${playerId}`);
+        const res = await fetch(`/api/players/${playerId}`);
         if (!res.ok) throw new Error("선수 정보를 불러오지 못했습니다.");
         currentPlayerData = await res.json();
 
@@ -613,7 +613,7 @@ async function loadDlPrediction() {
 
     try {
         const res = await fetch(
-            `http://127.0.0.1:8000/api/players/${currentPlayerData.player_id}/predict-dl?target_season=${targetSeason}&mode=${activeMode}&scenario=${scenario}`
+            `/api/players/${currentPlayerData.player_id}/predict-dl?target_season=${targetSeason}&mode=${activeMode}&scenario=${scenario}`
         );
         if (!res.ok) throw new Error("예측 실패");
         const data = await res.json();

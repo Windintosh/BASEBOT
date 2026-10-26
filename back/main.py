@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
@@ -38,6 +39,8 @@ from routers import players, teams, games, predictions, rankings, standings
 from routers.news import router as news_router # 뉴스추가
 from routers.notice import router as notice_router # 공지사항
 
+from upload_paths import UPLOAD_DIR, COMMUNITY_UPLOAD_DIR
+
 
 app = FastAPI(
     title="BASEBOT API"
@@ -45,9 +48,12 @@ app = FastAPI(
 
 
 # DB 테이블 생성
-Base.metadata.create_all(
-    bind=engine
-)
+# Base.metadata.create_all(
+#     bind=engine
+# )
+# 로컬 실행에서만 테이블 자동 생성
+if not os.environ.get("VERCEL"):
+    Base.metadata.create_all(bind=engine)
 
 # CORS
 app.add_middleware(
@@ -128,14 +134,13 @@ app.mount(
     name="assets"
 )
 
-import os
 # 프로젝트 back 폴더 기준으로 업로드 경로 설정
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
-COMMUNITY_UPLOAD_DIR = os.path.join(
-    UPLOAD_DIR,
-    "community"
-)
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
+# COMMUNITY_UPLOAD_DIR = os.path.join(
+#     UPLOAD_DIR,
+#     "community"
+# )
 
 # 업로드 폴더가 없으면 자동 생성
 os.makedirs(COMMUNITY_UPLOAD_DIR, exist_ok=True)

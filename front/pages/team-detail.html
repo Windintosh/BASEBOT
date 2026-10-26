@@ -625,7 +625,7 @@
 
         async function fetchTeamRoster(teamId, season = null) {
             try {
-                let url = `http://127.0.0.1:8000/api/teams/${teamId}`;
+                let url = `/api/teams/${teamId}`;
                 if (season) {
                     url += `?season=${season}`;
                 }

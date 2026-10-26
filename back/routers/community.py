@@ -6,6 +6,7 @@ import os
 import re
 from urllib.parse import urlparse
 from database.db_connection import get_session
+from upload_paths import COMMUNITY_UPLOAD_DIR
 
 
 
@@ -228,11 +229,7 @@ def create_post(
         if "/uploads/community/" not in parsed_url.path:
             continue
 
-        file_path = os.path.join(
-            "uploads",
-            "community",
-            stored_name
-        )
+        file_path = os.path.join(COMMUNITY_UPLOAD_DIR, stored_name)
 
         # 실제 서버 파일이 존재하는지 확인
         if not os.path.isfile(file_path):
@@ -355,7 +352,7 @@ def update_post(
         # 실제 업로드 폴더 안의 파일인지 확인
         if old_name:
             upload_dir = os.path.realpath(
-                os.path.join("uploads", "community")
+                COMMUNITY_UPLOAD_DIR
             )
 
             file_path = os.path.realpath(
@@ -396,7 +393,7 @@ def update_post(
             continue
 
         upload_dir = os.path.realpath(
-            os.path.join("uploads", "community")
+            COMMUNITY_UPLOAD_DIR
         )
 
         file_path = os.path.realpath(
@@ -415,11 +412,7 @@ def update_post(
             post_id=post_id,
             original_name=stored_name,
             stored_name=stored_name,
-            file_path=os.path.join(
-                "uploads",
-                "community",
-                stored_name
-            ),
+            file_path=os.path.join(COMMUNITY_UPLOAD_DIR, stored_name),
             file_size=os.path.getsize(file_path)
         )
 
@@ -481,7 +474,7 @@ def delete_post(
 
     # 3. 실제 이미지 파일 삭제
     upload_dir = os.path.realpath(
-        os.path.join("uploads", "community")
+        COMMUNITY_UPLOAD_DIR
     )
 
     for image in images:
@@ -1554,21 +1547,25 @@ def upload_community_image(
     file_size = len(file_data)
 
     # 업로드 폴더
-    upload_dir = "uploads/community"
+    # upload_dir = "uploads/community"
 
-    import os
+    # import os
+    # import uuid
+
+    # # community.py가 있는 routers 폴더의 상위인 back 폴더
+    # BACK_DIR = os.path.dirname(
+    #     os.path.dirname(os.path.abspath(__file__))
+    # )
+
+    # upload_dir = os.path.join(
+    #     BACK_DIR,
+    #     "uploads",
+    #     "community"
+    # )
+
     import uuid
 
-    # community.py가 있는 routers 폴더의 상위인 back 폴더
-    BACK_DIR = os.path.dirname(
-        os.path.dirname(os.path.abspath(__file__))
-    )
-
-    upload_dir = os.path.join(
-        BACK_DIR,
-        "uploads",
-        "community"
-    )
+    upload_dir = COMMUNITY_UPLOAD_DIR
 
     # 폴더가 없으면 자동 생성
     os.makedirs(upload_dir, exist_ok=True)
