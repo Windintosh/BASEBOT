@@ -1,4 +1,7 @@
-back/
+back/**
+!back/database/
+back/database/**
+!back/database/db_connection.py
 front/
 reports/
 .kilo/

@@ -1,13 +1,65 @@
+import os
+import ssl
+
 from sqlalchemy import create_engine
+from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker
 
-# 데이터베이스 연결 정보 설정
-DATABASE_URL = "mysql+pymysql://basebot:basebot@localhost:3306/basebot_db"
+# 데이터베이스 연결 정보 설정(계정 및 비밀번호 제거)
+DATABASE_URL = URL.create(
+    drivername="mysql+pymysql",
+    username=os.environ["DB_USER"],
+    password=os.environ["DB_PASSWORD"],
+    host=os.environ["DB_HOST"],
+    port=int(os.environ["DB_PORT"]),
+    database=os.environ["DB_NAME"],
+    query={"charset": "utf8mb4"},
+)
 
-# 엔진 생성
+connect_args = {}
+
+if os.environ.get("DB_SSL_CA"):
+    connect_args["ssl"] = ssl.create_default_context(
+        cadata=os.environ["DB_SSL_CA"]
+    )
+elif os.environ.get("VERCEL"):
+    raise RuntimeError("DB_SSL_CA is required on Vercel")
+
 engine = create_engine(
     DATABASE_URL,
-    echo=True
+    connect_args=connect_args,
+    echo=False,
+    pool_pre_ping=True,
+    pool_size=2,
+    max_overflow=0,
+)
+
+
+# Vercel에서는 환경변수로 Aiven에 연결
+connect_args = {}
+
+if os.environ.get("VERCEL") or os.environ.get("DB_HOST"):
+    DATABASE_URL = URL.create(
+        drivername="mysql+pymysql",
+        username=os.environ["DB_USER"],
+        password=os.environ["DB_PASSWORD"],
+        host=os.environ["DB_HOST"],
+        port=int(os.environ["DB_PORT"]),
+        database=os.environ["DB_NAME"],
+        query={"charset": "utf8mb4"},
+    )
+
+    connect_args["ssl"] = ssl.create_default_context(
+        cadata=os.environ["DB_SSL_CA"]
+    )
+
+engine = create_engine(
+    DATABASE_URL,
+    connect_args=connect_args,
+    echo=False,
+    pool_pre_ping=True,
+    pool_size=2,
+    max_overflow=0,
 )
 
 # 세션 팩토리 생성
