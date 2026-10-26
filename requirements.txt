@@ -1,5 +1,5 @@
 # Analysis snapshot for Linux x86_64 / Python 3.13; application compatibility not yet tested.
---extra-index-url https://download.pytorch.org/whl/cpu
+# --extra-index-url https://download.pytorch.org/whl/cpu
 aiohappyeyeballs==2.7.1
     # via aiohttp
 aiohttp==3.14.5
@@ -350,7 +350,7 @@ threadpoolctl==3.7.0
     # via scikit-learn
 tokenizers==0.23.3
     # via chromadb
-torch==2.6.0+cpu
+torch @ https://download.pytorch.org/whl/cpu/torch-2.6.0%2Bcpu-cp313-cp313-linux_x86_64.whl
     # via -r reports/dependency-audit/runtime-candidate.in
 tqdm==4.70.1
     # via
